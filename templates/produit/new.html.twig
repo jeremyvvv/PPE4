@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Produit{% endblock %}
+
+{% block body %}
+    {%  if (app.user.email) is defined and app.user.email == 'admin@admin.com' %}
+    <h1>Create new Produit</h1>
+    {{ include('produit/_form.html.twig') }}
+
+    <a href="{{ path('produit_index') }}">back to list</a>
+
+{% else %}
+    <p>Vous n'avez pas accès à cette page</p>
+{% endif %}
+{% endblock %}
