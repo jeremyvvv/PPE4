@@ -9,12 +9,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/produit")
  */
 class ProduitController extends AbstractController
 {
+
+    /**
+     * @Route("/api/{id}", name="api_client_show")
+     */
+    public function webserviceById(Produit $produit): Response
+    {
+        $encoders = [new XmlEncoder(),new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $reponse = new Response();
+        $reponse->setContent($serializer->serialize($produit,'json'));
+        $reponse->headers->set('Content-Type','application/json');
+        return $reponse;
+    }
+
+
     /**
      * @Route("/", name="produit_index", methods={"GET"})
      */
@@ -25,6 +46,8 @@ class ProduitController extends AbstractController
 
         ]);
     }
+
+
 
     /**
      * @Route("/new", name="produit_new", methods={"GET","POST"})

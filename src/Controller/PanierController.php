@@ -50,7 +50,6 @@ class PanierController extends AbstractController
             $montant_total = $lePanier->getMontantTotal();
 
             $lesProduits = $manager->getRepository(Contenir::class)->findAll();
-
         }
 
         $session->set("panierId", $lePanier->getId());
